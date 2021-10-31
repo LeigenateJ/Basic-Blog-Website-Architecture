@@ -1,0 +1,124 @@
+<div class="nav">
+
+
+  <div class="nav_logo">
+    <img src="./images/logo.png" width="150px">
+  </div>
+  <div class="nav_menu">
+    <ul class="nav_ul">
+      <li><a href="./">HOME</a></li>
+      <li><a href="./allBlogs">ALL BLOGS</a></li>
+      <li><a href="./myBlogs">MY BLOGS</a></li>
+      <li><a href="./addNewArticles">POST BLOGS</a></li>
+
+  </div>
+  </ul>
+  <div class="nav_user">
+    <ul class="nav_ul">
+      <li><a href="./logout" style="font-weight:100;">Log out</a></li>
+
+    </ul>
+
+
+
+  </div>
+</div>
+
+
+<div class="box">
+  <h1 class="postBlogs_title">Edit My Blogs</h1>
+  <div>
+    <form action="./saveArticle?articleId={{article.article_id}}" method="POST" enctype="multipart/form-data"
+      onsubmit="return articleJudgement()">
+      <div class="form-group">
+        <div class="image-upload-one">
+          <div class="center">
+            <div class="form-input">
+              <p>Choose an image(if any)</p>
+              <label for="file-ip-1">
+                <img id="file-ip-1-preview" src={{#if
+                  article.img_path}}{{article.img_path}}{{else}}"./images/default.png"{{/if}}>
+                <button type="button" class="imgRemove" onclick="myImgRemove(1)"></button>
+              </label>
+              <input type="file" name="imageFile" id="file-ip-1" accept=".png,.jpg,.jpeg,.bmp"
+                onchange="showPreview(event, 1);">
+              <input type="hidden" name="oldImageFile" value={{article.img_path}}>
+              <p>accept: .png, .jpg, .jpeg, .bmp</p>
+            </div>
+          </div>
+        </div>
+        <script>var number = 1;
+          do {
+            function showPreview(event, number) {
+              if (event.target.files.length > 0) {
+                let src = URL.createObjectURL(event.target.files[0]);
+                let preview = document.getElementById("file-ip-" + number + "-preview");
+                preview.src = src;
+                preview.style.display = "block";
+              }
+            }
+            function myImgRemove(number) {
+              document.getElementById("file-ip-" + number + "-preview").src = "./images/default.png";
+              document.getElementById("file-ip-" + number).value = null;
+            }
+            number++;
+          }
+          while (number < 5);</script>
+      </div>
+      <div class="inputTitle">
+        <label for="txtCaption">Article title:</label>
+        <input id="txtCaption" type="text" name="articleTitle" value="{{article.heading}}">
+      </div>
+
+      <div style="padding: 20px;">
+        <!-- Create the editor container -->
+
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+        <input name="content" type="hidden">
+
+        <div id="editor">
+          {{{article.article_text}}}
+        </div>
+
+        <!-- Include the Quill library -->
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+        <!-- Initialize Quill editor -->
+        <script>
+          var quill = new Quill('#editor', {
+            theme: 'snow'
+          });
+          function articleJudgement() {
+            var content = document.querySelector('input[name=content]');
+            content.value = quill.root.innerHTML;
+
+
+            let articleTitle = document.querySelector("#txtCaption");
+
+            let isValidArticle = true;
+            let isArticleNull = isNull(quill.getText().split(" ").join("").split("\n").join("")) || isNull(articleTitle.value);
+            if (isArticleNull == true) {
+              isValidArticle = false;
+              alert("Please fill all content!");
+            }
+
+            return isValidArticle;
+          }
+          function isNull(str) {
+            if (str == "") {
+              return true;
+            }
+            var regu = "^[ ]+$";
+            var re = new RegExp(regu);
+            return re.test(str);
+          };
+
+        </script>
+      </div>
+      <div>
+        <button type="submit" style="display:block; margin:auto">Save!</button>
+      </div>
+    </form>
+  </div>
+</div>

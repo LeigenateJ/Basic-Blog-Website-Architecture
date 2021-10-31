@@ -1,0 +1,51 @@
+.image-upload-one {
+    padding: 20px;
+   
+
+}
+
+.form-input {
+    padding: 3px;
+    background: #fff;
+    display: block;
+    margin: auto;
+    
+}
+.center {
+    display: flex;
+    justify-content: center;
+}
+.form-input label {
+    display: block;
+    width: 200px;
+    height: auto;
+    max-height: 200px;
+    background: #333;
+    border-radius: 10px;
+    cursor: pointer;
+
+}
+
+.form-input img {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+}
+
+.imgRemove {
+    position: relative;
+    bottom: 190px;
+    left: 80%;
+    background-color: transparent;
+    border: none;
+    font-size: 30px;
+    outline: none;
+}
+
+.imgRemove::after {
+    content: ' \21BA';
+    color: #fff;
+    font-weight: 900;
+    border-radius: 8px;
+    cursor: pointer;
+}

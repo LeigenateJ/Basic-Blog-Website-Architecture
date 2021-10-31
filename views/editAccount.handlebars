@@ -1,0 +1,179 @@
+<div class="nav">
+
+
+  <div class="nav_logo">
+    <img src="./images/logo.png" width="150px">
+  </div>
+  <div class="nav_menu">
+    <ul class="nav_ul">
+      <li><a href="./">HOME</a></li>
+      <li><a href="./allBlogs">ALL BLOGS</a></li>
+      <li><a href="./myBlogs">MY BLOGS</a></li>
+      <li><a href="./addNewArticles">POST BLOGS</a></li>
+
+  </div>
+  </ul>
+  <div class="nav_user">
+    <ul class="nav_ul">
+      <li><a href="./logout" style="font-weight:100;">Log out</a></li>
+
+    </ul>
+
+
+
+  </div>
+</div>
+
+</div>
+<div class="box">
+  <h1>Edit personal Information</h1>
+  <div class="x"></div>
+  <div class="signForm">
+    <form action="./updateUser" id="form-s" name="submitted" method="POST" onsubmit="return editUserJudgement()" style="text-align:right;">
+      <div><span>change username to:  </span><input type="text" name="user_name" class="username"><br><span
+          class="usernameError"></span></div><br>
+      <div><span>change password to:  </span><input type="password" name="password" class="password"></div><br>
+      <div><span>rePassword:  </span><input type="password" class="rePassword"><br>
+        <span class="error">Entered passwords differ</span>
+      </div><br>
+      <input type="text" style="display: none;" id="avatar_path" name="avatar_path">
+      <p style="text-align:center;">change your avatar</p>
+      <div class="btnBgs">
+        <button type="button" img="../images/avatar1.jpg" class="btnBg"></button>
+        <button type="button" img="../images/avatar2.jpg" class="btnBg"></button>
+        <button type="button" img="../images/avatar3.jpg" class="btnBg"></button>
+        <button type="button" img="../images/avatar4.jpg" class="btnBg"></button>
+        <button type="button" img="../images/avatar5.jpg" class="btnBg"></button>
+      </div><br>
+      <div><span>first name:  </span><input name="fname" type="text" value={{user.fname}}></div><br>
+      <div><span>last name:  </span><input name="lname" type="text" value={{user.lname}}></div><br>
+      <div><span>date of birth:  </span><input name="DOB" type="date" value={{user.dob}}></div><br>
+      <div><span>Description:  </span><input name="description" type="text" value="{{user.description}}"></div><br>
+      <div class="btn"><button type="submit" style="width: 80px;height: 30px;" id="domsave">save</button>
+        <button type="button" style="width: 80px;height: 30px;float: right;" id="domdelete">delete</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+  let isValidUserName = true;      //isValidUserName
+  let isValidPassword = true;      //isValidPassword
+
+  var xhr;
+  var username = document.querySelector(".username");
+  var usernameError = document.querySelector(".usernameError")
+  username.addEventListener("blur", function () {
+    userInput(username);
+   
+  });
+
+  function getXMLHttpRequest() {
+    if (window.XMLHttpRequest) {
+      return new XMLHttpRequest;
+    }
+  }
+  function userInput(textName) {
+
+    var userName = textName.value;
+    xhr = getXMLHttpRequest();
+    xhr.onreadystatechange = getResult;
+    xhr.open("GET", "http://localhost:3000/userExist?username=" + userName, true);
+    xhr.send(null);
+  }
+  function getResult() {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      if (xhr.responseText == "v") {
+        usernameError.style.color = "green";
+        usernameError.innerHTML = "Valid username！";
+        isValidUserName = true;      //isValidUserName
+        
+      } else {
+        usernameError.style.color = "red";
+        usernameError.innerHTML = "Invalid username, please enter again";
+        isValidUserName = false;    //isValidUserName
+        
+      }
+    }
+  }
+
+  var password = document.querySelector(".password")
+  var rePassword = document.querySelector(".rePassword")
+  var errors = document.querySelector(".error")
+  rePassword.addEventListener("blur", function () {
+    if (password.value !== rePassword.value) {
+      errors.style.display = "block"
+      isValidPassword = false;     //isValidPassword
+    } else {
+      errors.style.display = "none";
+      isValidPassword = true;   //isValidPassword
+    }
+  })
+
+  let save = document.getElementById("domsave")
+  let del = document.getElementById("domdelete")
+  let form = document.getElementById("form-s")
+
+  del.addEventListener("click", function () {
+    console.dir(form)
+    form.action = "./deleteUser"
+    form.submit()
+  })
+
+  let avatar_list = document.getElementsByClassName("btnBg");
+  avatar_list = Array.from(avatar_list);
+  let avatar_path_dom = document.getElementById("avatar_path")
+  avatar_list.forEach((outitem) => {
+    outitem.addEventListener("click", function () {
+     
+      avatar_list.forEach((item) => {
+        item.style.border = "2px solid black"
+      })
+      this.style.border = "2px solid red"
+      avatar_path_dom.value = this.getAttribute("img")
+    
+    })
+  })
+
+  //judge whether input validity
+
+  function editUserJudgement() {
+   
+    let content = document.getElementById("form-s");
+   
+    let isValidContent = true;
+    for (let i = 0; i < content.length; i++) {
+      if (i == 4) { continue; }
+      let validity = isNull(content[i].value);
+      if (validity == false) {
+        isValidContent = isValidContent && true;
+      } else {
+        isValidContent = false;
+      }
+    }
+
+    if (content[0].value == "") {
+      let isValidUserName = true;
+    }
+
+    if (content[1].value == "") {
+      let isValidPassword = true;
+    }
+
+    isValidContent = isValidUserName && isValidPassword && isValidContent; 
+
+    if (isValidContent == false) {
+      alert("Please enter correctly");
+    }
+
+    return isValidContent;
+  };
+
+  function isNull(str) {
+    if (str == "") {
+      return false;
+    }
+    var regu = "^[ ]+$";
+    var re = new RegExp(regu);
+    return re.test(str);
+  };
+</script>

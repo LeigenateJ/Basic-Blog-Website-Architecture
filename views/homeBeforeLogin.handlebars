@@ -1,0 +1,301 @@
+<div class="container">
+<div class="header">
+   <div class="headerText">
+      <h1>TRAVEL BLOG</h1>
+      <p>Let's explore the world!</p>
+    </div>
+  </div>
+ 
+<div class="nav">
+  <div class="nav_logo">
+  <img src="./images/logo.png" width="150px">
+</div>
+     <div class="nav_menu">
+            <ul class="nav_ul">
+                <li><a href="./">HOME</a></li>
+              <li><a href="./allBlogs">ALL BLOGS</a></li>
+            </ul>
+        </div>
+
+    <div class="nav_user">
+         <ul class="nav_ul">
+            <li><a href="./login" style="font-weight:100;">Login</a></li>
+            <li><a href="./register" style="font-weight:100;">Register</a></li>
+        </ul>
+    </div>
+
+</div>
+  
+  <div class="right_sidebar">
+    <ul>
+      <div class="nav_menu_sort">SORTED BY</div>
+      <li><a id="sortByTitle">ARTCILE TITLE</a></li>
+      <li><a id="sortByUsername">USERNAME</a></li>
+      <li><a id="sortByDate">DATE</a></li>
+    </ul>
+  </div>
+
+
+   <div class="content">
+    {{#each articles}}
+    <div class="content_wrapper" id="contentInArticle{{article_id}}">
+      <div class="article_wrapper">
+
+        <div class="article_wrapper_header">
+          <div class="user_avatar_wrapper">
+            <div class="user_avatar">
+              <span><img src={{this.user.avatar_path}} class="img_avatar img_circle"></span>
+            </div>
+            <div class="user_name">
+              <span>
+                <p>{{this.user.user_name}}</p>
+              </span>
+            </div>
+          </div>
+
+          <div class="article_post_time">
+            <div>
+              <p>Post Time: {{this.post_time}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="article_heading">
+          <p>{{this.heading}}</p>
+        </div>
+        <div class="article_img_area">
+          <div class="article_img">
+            <span><img src={{this.img_path}}></span>
+          </div>
+
+        </div>
+        <div class="article_text">
+          {{{this.article_text}}}
+        </div>
+      </div>
+
+      <div class="comment_wrapper">
+        <p><button class="ctrl-show">show comment</button> <a href="/login"><button class="">reply</button></a></p>
+        <div id="reply{{this.article_id}}" style="display: none;margin-top:10px">
+          <textarea name="" id="commentContentForArticle{{this.article_id}}" cols="50" rows="3"></textarea>
+          <br>
+          <button class="submitOne_commit" id="commentFromArticle{{this.article_id}}">submit</button>
+        </div>
+        <div class="comment_list" style="display: none;">
+          {{#each this.commentList}}
+          {{!-- action --}}
+          <div class="comment_content">
+            <div class="comment_left_side_bar">
+              <div class="user_avatar">
+                <img src={{this.avatar_path}} class="img_avatar img_circle">
+              </div>
+            </div>
+            <div class="comment_content_wrapper">
+              <div class="user_name">
+                <p>{{this.user_name}}</p>
+              </div>
+              <div class="comment_text">
+                <p>{{this.comment_text}}</p>
+              </div>
+
+              <div class="comment_interaction">
+                <span class="post_time">{{this.post_time}}</span>
+                <a href="/login" id="/addordeleteLike?article_id={{this.article_id}}&comment_id={{this.comment_id}}&up_num=" class="like">
+                  {{#if this.good}}
+                  <i style="background-position:-153px -90px;"></i>
+                  {{else}}
+                  <i style="background-position:-153px -25px;"></i>
+                  {{/if}}<span>{{this.up_num}}</span></a>
+                <a href="/login" id="/addordeleteHate?article_id={{this.article_id}}&comment_id={{this.comment_id}}&down_num=" class="hate">
+                  {{#if this.bad}}
+                  <i style="background-position:-153px -217px;"></i>
+                  {{else}}
+                  <i style="background-position:-153px -153px;"></i>
+                  {{/if}}<span>{{this.down_num}}</span></a>
+                <a class="reply" href="/login">reply</a>
+                 {{#if this.isDelete}}<button id="delBtnOfComment{{this.comment_id}}">delete</button>
+                 {{/if}}
+              </div>
+              <div id="replytwo{{this.comment_id}}" style="display: none;margin-top:10px">
+                <textarea name="" id="textOf&article_id={{this.article_id}}&upper_comment_id={{this.comment_id}}" cols="50" rows="3"></textarea>
+                <br>
+                <button class="submittwo_commit" id="&article_id={{this.article_id}}&upper_comment_id={{this.comment_id}}">submit</button>
+              </div>
+              <div class="secondLevelOfComment">
+                {{#each this.innerComments}}
+                <div class="comment_content comment_inner_comment">
+                  <div class="user_avatar">
+                    <img src={{this.avatar_path}} class="img_avatar img_circle">
+                  </div>
+                  <div class="comment_content_wrapper">
+                    <div class="comment_poster_msg">
+                      <div class="user_name">
+                        <p>{{this.user_name}}</p>
+                      </div>
+                      <div class="comment_inner_comment_content">
+                        <p>{{this.comment_text}}</p>
+                      </div>
+                    </div>
+                    <div class="comment_interaction">
+                      <span class="post_time">{{this.post_time}}</span>
+                      <a href="/login" id="/addordeleteLike?article_id={{this.article_id}}&comment_id={{this.comment_id}}&up_num=" class="like">
+                        {{#if this.good}}
+                        <i style="background-position:-153px -90px;"></i>
+                        {{else}}
+                        <i style="background-position:-153px -25px;"></i>
+                        {{/if}}<span>{{this.up_num}}</span></a>
+                      <a href="/login" id="/addordeleteHate?article_id={{this.article_id}}&comment_id={{this.comment_id}}&down_num=" class="hate">
+                        {{#if this.bad}}
+                        <i style="background-position:-153px -217px;"></i>
+                        {{else}}
+                        <i style="background-position:-153px -153px;"></i>
+                        {{/if}}<span>{{this.down_num}}</span></a>
+                      <a class="reply" href="/login">reply</a>
+                      {{#if this.isDelete}}<button id="delBtnOfComment{{this.comment_id}}">delete</button>
+                      {{/if}}
+                    </div>
+                    <div id="replytwo{{this.comment_id}}" style="display: none;margin-top:10px">
+                      <textarea name="" id="textOf&article_id={{this.article_id}}&upper_comment_id={{this.comment_id}}" cols="50" rows="3"></textarea>
+                      <br>
+                      <button class="submittwo_commit" id="&article_id={{this.article_id}}&upper_comment_id={{this.comment_id}}">submit</button>
+                    </div>
+                    <div class="lastLevelOfComment" style="margin: 15px;">
+                      {{#each this.innerComments}}
+                      <div class="comment_content comment_inner_comment">
+                        <div class="user_avatar">
+                          <img src={{this.avatar_path}} class="img_avatar img_circle">
+                        </div>
+                        <div class="comment_content_wrapper">
+                          <div class="comment_poster_msg">
+                            <div class="user_name">
+                              <p>{{this.user_name}}</p>
+                            </div>
+                            <div class="comment_inner_comment_content">
+                              <p>{{this.comment_text}}</p>
+                            </div>
+                          </div>
+                          <div class="comment_interaction">
+                            <span class="post_time">{{this.post_time}}</span>
+                            <a href="/login" id="/addordeleteLike?article_id={{this.article_id}}&comment_id={{this.comment_id}}&up_num=" class="like">
+                              {{#if this.good}}
+                              <i style="background-position:-153px -90px;"></i>
+                              {{else}}
+                              <i style="background-position:-153px -25px;"></i>
+                              {{/if}}<span>{{this.up_num}}</span></a>
+                            <a href="/login" id="/addordeleteHate?article_id={{this.article_id}}&comment_id={{this.comment_id}}&down_num=" class="hate">
+                              {{#if this.bad}}
+                              <i style="background-position:-153px -217px;"></i>
+                              {{else}}
+                              <i style="background-position:-153px -153px;"></i>
+                              {{/if}}<span>{{this.down_num}}</span></a>
+                              {{#if this.isDelete}}<button id="delBtnOfComment{{this.comment_id}}">delete</button>
+                              {{/if}}
+                          </div>
+                        </div>
+
+                      </div>
+                      {{/each}}
+                    </div>
+                  </div>
+
+                </div>
+                {{/each}}
+              </div>
+
+            </div>
+
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+</div>
+
+
+<script>
+
+  generateDisplayCommentBtn();
+
+  generateSorting();
+
+  function generateDisplayCommentBtn () {
+    let ctrlList = document.getElementsByClassName("ctrl-show");
+    let comment_list = document.getElementsByClassName("comment_list");
+    ctrlList = Array.from(ctrlList)
+    comment_list = Array.from(comment_list)
+
+    for (let i = 0; i < ctrlList.length; i++) {
+      ctrlList[i].addEventListener('click', function () {
+        if (comment_list[i].style.display == "grid") {
+          comment_list[i].style.display = "none"
+          ctrlList[i].innerText = "show comment"
+        } else {
+          comment_list[i].style.display = "grid"
+          ctrlList[i].innerText = "hide comment"
+        }
+
+      })
+    }
+  }
+
+  function showComment(id) {
+    let response = fetch("/login")
+  }
+
+  function generateSorting() {
+
+    let sortByTitle = document.querySelector("#sortByTitle");
+    let sortByUsername = document.querySelector("#sortByUsername");
+    let sortByDate = document.querySelector("#sortByDate");
+
+    sortByTitle.addEventListener('click', async function () {
+      let response = await sortArticles("./sort?by=title");
+     
+      adjustContentsPosition(response);
+    });
+
+    sortByUsername.addEventListener('click', async function () {
+      let response = await sortArticles("./sort?by=username");
+      
+      adjustContentsPosition(response);
+    });
+
+    sortByDate.addEventListener('click', async function () {
+      let response = await sortArticles("./sort?by=date");
+     
+      adjustContentsPosition(response);
+    });
+  }
+
+  async function sortArticles(url) {
+      let response = await fetch(url);
+    
+      let Json = await response.json();
+     
+      return Json;
+    }
+
+  function adjustContentsPosition(response) {
+    let articlesContent_list = document.querySelectorAll(".content_wrapper");
+
+    articlesContent_list = Array.from(articlesContent_list);
+   
+
+    if(articlesContent_list.length != 0) {
+      let new_div = document.createElement("div");
+      articlesContent_list[0].parentNode.insertBefore(new_div,articlesContent_list[0]);
+
+      for(let i = 0; i < response.length; i++) {
+        let order = response[i].article_id;
+        for(let j = 0; j < articlesContent_list.length; j++) {
+          if(articlesContent_list[j].id.substring(16) == order) {
+            articlesContent_list[0].parentNode.insertBefore(articlesContent_list[j], new_div);
+          }
+        }
+      }
+    }
+    
+  }
+</script>

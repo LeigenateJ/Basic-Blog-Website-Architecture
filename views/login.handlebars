@@ -1,0 +1,41 @@
+
+
+
+
+<div class="nav">
+    <div class="nav_logo">
+  <img src="./images/logo.png" width="150px">
+</div>
+     <div class="nav_menu">
+            <ul class="nav_ul">
+                <li><a href="./">HOME</a></li>
+              <li><a href="./allBlogs">ALL BLOGS</a></li>
+            </ul>
+        </div>
+
+    <div class="nav_user">
+         <ul class="nav_ul">
+            <li><a href="./login" style="font-weight:100;">Login</a></li>
+            <li><a href="./register" style="font-weight:100;">Register</a></li>
+        </ul>
+    </div>
+
+</div>
+<div class="background">
+{{! Display a message if one was provided. }}
+{{#if message}}
+<p style="text-align: center;">{{message}}</p>
+{{/if}}
+<div class="box">
+    <h1>Login</h1>
+    <form action="./login" method="POST">
+        <div class="x"></div>
+        <div class="userInput">
+            <div>username: <input type="text" name="username"></div>
+            <div>password: <input type="password" , name="password"></div>
+            <button type="submit">log in</button>
+        </div>
+    </form>
+    <p style="text-align: center;">There is no account?<a href="./register">sign up right away</a> </p>
+</div>
+</div>

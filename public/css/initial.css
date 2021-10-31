@@ -1,0 +1,26 @@
+* {
+    margin:0; padding:0; box-sizing: border-box;
+} 
+
+
+img {
+    border:0; vertical-align:middle;
+} 
+
+table {
+    border-collapse:collapse; border-spacing:0;
+} 
+
+p {
+    word-wrap:break-word;
+    display: block;
+} 
+
+div {
+    display: block;
+}
+a{
+  text-decoration: underline;
+  color: #000;
+  cursor: pointer;
+}
